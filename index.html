@@ -6,13 +6,7 @@
 <title>Net Yield Calculator — Dubai Property</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: #0a0a0a;
-    color: #f0ede6;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    min-height: 100vh;
-    padding: 40px 20px;
-  }
+  body { background: #0a0a0a; color: #f0ede6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding: 40px 20px; }
   .container { max-width: 480px; margin: 0 auto; }
   .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px; }
   .title { font-size: 26px; font-weight: 600; color: #f0ede6; line-height: 1.2; }
@@ -20,15 +14,12 @@
   .subtitle { font-size: 13px; color: #444; margin-top: 5px; }
   .by-line { font-size: 11px; color: #333; text-align: right; line-height: 1.7; }
   .by-line strong { color: #c9a84c; display: block; }
-
-  .market-toggle { display: flex; background: #111; border: 1px solid #1a1a1a; border-radius: 8px; padding: 4px; margin-bottom: 20px; }
-  .market-toggle button { flex: 1; padding: 10px; font-size: 13px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s; background: transparent; color: #444; }
-  .market-toggle button.active { background: #c9a84c; color: #0a0a0a; font-weight: 700; }
-
-  .input-mode { display: flex; background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 4px; margin-bottom: 20px; }
-  .input-mode button { flex: 1; padding: 8px 6px; font-size: 11px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s; background: transparent; color: #444; line-height: 1.4; text-align: center; }
+  .toggle-row { display: flex; background: #111; border: 1px solid #1a1a1a; border-radius: 8px; padding: 4px; margin-bottom: 16px; }
+  .toggle-row button { flex: 1; padding: 10px; font-size: 13px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; transition: all 0.2s; background: transparent; color: #444; }
+  .toggle-row button.active { background: #c9a84c; color: #0a0a0a; font-weight: 700; }
+  .input-mode { display: flex; background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 4px; margin-bottom: 16px; }
+  .input-mode button { flex: 1; padding: 8px 6px; font-size: 11px; font-weight: 500; border: none; border-radius: 6px; cursor: pointer; background: transparent; color: #444; line-height: 1.4; text-align: center; }
   .input-mode button.active { background: #1a1a1a; color: #f0ede6; }
-
   .section-label { font-size: 9px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #333; margin: 20px 0 12px; }
   .input-row { margin-bottom: 10px; }
   .input-row label { display: block; font-size: 12px; color: #555; margin-bottom: 5px; }
@@ -39,92 +30,77 @@
   .input-wrap input::placeholder { color: #2a2a2a; }
   .input-wrap.pct input { padding-left: 36px; }
   .helper { font-size: 10px; color: #2a2a2a; margin-top: 3px; }
-
-  .implied-rent { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 6px; padding: 10px 14px; margin-top: 6px; display: none; }
-  .implied-rent.visible { display: flex; justify-content: space-between; align-items: center; }
+  .optional-tag { font-size: 9px; color: #333; background: #1a1a1a; padding: 2px 6px; border-radius: 3px; margin-left: 6px; vertical-align: middle; }
+  .implied-rent { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 6px; padding: 10px 14px; margin-top: 6px; display: none; justify-content: space-between; align-items: center; }
+  .implied-rent.visible { display: flex; }
   .implied-label { font-size: 11px; color: #444; }
   .implied-value { font-size: 14px; font-weight: 600; color: #c9a84c; }
-
-  .txn-info { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
-  .txn-info-title { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .dld-waiver { display: flex; align-items: center; gap: 10px; background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 6px; padding: 10px 14px; margin-bottom: 10px; }
+  .dld-waiver label { font-size: 12px; color: #555; flex: 1; cursor: pointer; }
+  .dld-waiver input[type="checkbox"] { width: 16px; height: 16px; accent-color: #c9a84c; cursor: pointer; }
+  .txn-box { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+  .txn-box-title { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
   .txn-row { display: flex; justify-content: space-between; font-size: 11px; padding: 4px 0; border-bottom: 1px solid #111; }
   .txn-row:last-child { border-bottom: none; }
   .txn-key { color: #444; }
   .txn-val { color: #666; font-weight: 500; }
-  .txn-row.total-txn .txn-key { color: #888; font-weight: 600; }
-  .txn-row.total-txn .txn-val { color: #c9a84c; font-weight: 700; }
-  .txn-agent { display: none; }
-  .txn-agent.visible { display: flex; }
-
+  .txn-note { font-size: 9px; color: #2a2a2a; margin-top: 2px; }
+  .txn-row.txn-total .txn-key { color: #888; font-weight: 600; }
+  .txn-row.txn-total .txn-val { color: #c9a84c; font-weight: 700; }
+  .txn-hidden { display: none; }
   .divider { height: 1px; background: #151515; margin: 24px 0; }
   .result-card { display: none; margin-top: 8px; }
   .result-card.visible { display: block; }
-
-  /* Hero comparison */
-  .comparison-hero { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
-  .comparison-row { display: grid; grid-template-columns: 1fr 1fr; }
-  .comparison-cell { padding: 16px 14px; }
-  .comparison-cell.developer { border-right: 1px solid #1a1a1a; }
-  .comparison-cell.reality { background: #0a0a08; }
-  .comparison-cell-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-  .comparison-cell.developer .comparison-cell-label { color: #333; }
-  .comparison-cell.reality .comparison-cell-label { color: #7a6230; }
-  .comparison-yield { font-size: 32px; font-weight: 700; line-height: 1; }
-  .comparison-cell.developer .comparison-yield { color: #333; }
-  .comparison-cell.reality .comparison-yield { color: #c9a84c; }
-  .comparison-amount { font-size: 13px; font-weight: 500; margin-top: 4px; }
-  .comparison-cell.developer .comparison-amount { color: #2a2a2a; }
-  .comparison-cell.reality .comparison-amount { color: #7a6230; }
-  .true-yield-row { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #151515; }
-  .true-yield-label { font-size: 10px; color: #444; text-transform: uppercase; letter-spacing: 0.08em; }
-  .true-yield-values { text-align: right; }
-  .true-yield-pct { font-size: 18px; font-weight: 700; color: #c9a84c; }
-  .true-yield-amt { font-size: 11px; color: #7a6230; margin-top: 2px; }
-
-  /* Gap banner */
+  .hero { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero-cell { padding: 16px 14px; }
+  .hero-cell.left { border-right: 1px solid #1a1a1a; }
+  .hero-cell.right { background: #0a0a08; }
+  .hero-cell-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .hero-cell.left .hero-cell-label { color: #333; }
+  .hero-cell.right .hero-cell-label { color: #7a6230; }
+  .hero-yield { font-size: 32px; font-weight: 700; line-height: 1; }
+  .hero-cell.left .hero-yield { color: #333; }
+  .hero-cell.right .hero-yield { color: #c9a84c; }
+  .hero-amount { font-size: 13px; font-weight: 500; margin-top: 4px; }
+  .hero-cell.left .hero-amount { color: #2a2a2a; }
+  .hero-cell.right .hero-amount { color: #7a6230; }
+  .hero-true { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #151515; }
+  .hero-true-label { font-size: 10px; color: #444; text-transform: uppercase; letter-spacing: 0.08em; }
+  .hero-true-right { text-align: right; }
+  .hero-true-pct { font-size: 18px; font-weight: 700; color: #c9a84c; }
+  .hero-true-amt { font-size: 11px; color: #7a6230; margin-top: 2px; }
   .gap-banner { border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; border: 1px solid rgba(226,75,74,0.3); background: rgba(226,75,74,0.06); }
   .gap-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
   .gap-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #E24B4A; }
   .gap-amount { font-size: 28px; font-weight: 700; color: #E24B4A; }
   .gap-verdict { font-size: 13px; font-weight: 700; color: #E24B4A; margin-bottom: 6px; }
   .gap-desc { font-size: 11px; color: #666; line-height: 1.6; }
-
-  /* Breakdown */
-  .breakdown-wrap { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
-  .breakdown-title { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
-  .breakdown-row { display: flex; justify-content: space-between; font-size: 11px; padding: 5px 0; border-bottom: 1px solid #111; }
-  .breakdown-row:last-child { border-bottom: none; }
-  .breakdown-key { color: #444; }
-  .breakdown-val { color: #666; font-weight: 500; }
-  .breakdown-row.subtotal .breakdown-key { color: #888; font-weight: 500; }
-  .breakdown-row.subtotal .breakdown-val { color: #888; font-weight: 600; }
-  .breakdown-row.total .breakdown-key { color: #c9a84c; font-weight: 600; }
-  .breakdown-row.total .breakdown-val { color: #c9a84c; font-weight: 700; }
-  .breakdown-row.lost .breakdown-key { color: #E24B4A; }
-  .breakdown-row.lost .breakdown-val { color: #E24B4A; font-weight: 700; }
-  .breakdown-section { font-size: 9px; color: #222; text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 0 4px; }
-  .b-agent-row { display: none; }
-  .b-agent-row.visible { display: flex; }
-
-  /* 3 Year Table */
-  .threeyear-wrap { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+  .bdown { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+  .bdown-title { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .bdown-section { font-size: 9px; color: #222; text-transform: uppercase; letter-spacing: 0.1em; padding: 8px 0 4px; }
+  .bdown-row { display: flex; justify-content: space-between; font-size: 11px; padding: 5px 0; border-bottom: 1px solid #111; }
+  .bdown-row:last-child { border-bottom: none; }
+  .bdown-key { color: #444; }
+  .bdown-val { color: #666; font-weight: 500; }
+  .bdown-row.sub .bdown-key { color: #888; font-weight: 500; }
+  .bdown-row.sub .bdown-val { color: #888; font-weight: 600; }
+  .bdown-row.total .bdown-key { color: #c9a84c; font-weight: 600; }
+  .bdown-row.total .bdown-val { color: #c9a84c; font-weight: 700; }
+  .bdown-row.lost .bdown-key { color: #E24B4A; }
+  .bdown-row.lost .bdown-val { color: #E24B4A; font-weight: 700; }
+  .threeyear { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
   .threeyear-title { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-  .threeyear-table { width: 100%; border-collapse: collapse; }
-  .threeyear-table th { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 6px; text-align: right; font-weight: 500; }
-  .threeyear-table th:first-child { text-align: left; }
-  .threeyear-table td { font-size: 11px; padding: 5px 6px; border-top: 1px solid #111; text-align: right; color: #666; }
-  .threeyear-table td:first-child { text-align: left; color: #444; }
-  .threeyear-table tr.section-row td { font-size: 9px; color: #222; text-transform: uppercase; letter-spacing: 0.08em; padding-top: 10px; border-top: none; }
-  .threeyear-table tr.highlight td { color: #c9a84c; font-weight: 700; }
-  .threeyear-table tr.highlight td:first-child { color: #7a6230; }
-  .threeyear-table tr.red-row td { color: #E24B4A; font-weight: 600; }
-  .threeyear-table tr.red-row td:first-child { color: #E24B4A; }
-  .threeyear-table td.yr1 { color: #E24B4A; }
-  .threeyear-table td.positive { color: #1D9E75; }
+  .ty-table { width: 100%; border-collapse: collapse; }
+  .ty-table th { font-size: 9px; color: #333; text-transform: uppercase; letter-spacing: 0.08em; padding: 4px 6px; text-align: right; font-weight: 500; }
+  .ty-table th:first-child { text-align: left; }
+  .ty-table td { font-size: 11px; padding: 5px 6px; border-top: 1px solid #111; text-align: right; color: #666; }
+  .ty-table td:first-child { text-align: left; color: #444; }
+  .ty-table tr.sec-row td { font-size: 9px; color: #222; text-transform: uppercase; letter-spacing: 0.08em; padding-top: 10px; border-top: none; }
+  .ty-table tr.hl td { font-weight: 700; }
   .conservative-note { font-size: 10px; color: #2a2a2a; margin-top: 10px; line-height: 1.6; }
   .conservative-note span { color: #444; }
-
-  .cta-btn { width: 100%; background: #c9a84c; color: #0a0a0a; border: none; border-radius: 8px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; letter-spacing: 0.02em; margin-top: 10px; transition: opacity 0.2s; }
+  .cta-btn { width: 100%; background: #c9a84c; color: #0a0a0a; border: none; border-radius: 8px; padding: 14px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: opacity 0.2s; }
   .cta-btn:hover { opacity: 0.88; }
   .cta-sub { text-align: center; font-size: 11px; color: #2a2a2a; margin-top: 8px; }
   .empty-state { text-align: center; padding: 36px 0; color: #222; font-size: 13px; }
@@ -135,19 +111,15 @@
 </head>
 <body>
 <div class="container">
-
   <div class="header-top">
     <div>
       <div class="title">Net Yield <span>Calculator</span></div>
       <div class="subtitle">What is your Dubai property actually making you?</div>
     </div>
-    <div class="by-line">
-      <strong>Drishti</strong>
-      Home Finder Real Estate<br>Dubai
-    </div>
+    <div class="by-line"><strong>Drishti</strong>Home Finder Real Estate<br>Dubai</div>
   </div>
 
-  <div class="market-toggle">
+  <div class="toggle-row">
     <button class="active" id="btn-primary" onclick="setMarket('primary')">Primary Market</button>
     <button id="btn-secondary" onclick="setMarket('secondary')">Secondary Market</button>
   </div>
@@ -166,25 +138,24 @@
     </div>
   </div>
 
-  <div id="yield-input-wrap" class="input-row">
+  <div id="yield-wrap" class="input-row">
     <label>Developer projected yield (%)</label>
     <div class="input-wrap pct"><span class="prefix">%</span><input type="number" id="dev-yield" placeholder="8" oninput="calculate()" /></div>
-    <div class="implied-rent" id="implied-rent-box">
+    <div class="implied-rent" id="implied-box">
       <div class="implied-label">Implied annual gross rent</div>
-      <div class="implied-value" id="implied-rent-val">—</div>
+      <div class="implied-value" id="implied-val">—</div>
     </div>
   </div>
 
-  <div id="rent-input-wrap" class="input-row" style="display:none">
+  <div id="rent-wrap" class="input-row" style="display:none">
     <label>Annual gross rent</label>
     <div class="input-wrap"><span class="prefix">AED</span><input type="number" id="gross-rent" placeholder="90,000" oninput="calculate()" /></div>
-    <div class="helper">Use actual rent received or realistic market rent</div>
   </div>
 
   <div class="input-row">
-    <label>Mortgage amount (optional)</label>
+    <label>Mortgage amount <span class="optional-tag">optional</span></label>
     <div class="input-wrap"><span class="prefix">AED</span><input type="number" id="mortgage-amt" placeholder="600,000" oninput="calculate()" /></div>
-    <div class="helper">Leave blank if buying cash. Max LTV for overseas investors is typically 50 to 60%.</div>
+    <div class="helper">Max LTV for overseas investors typically 50 to 60%</div>
   </div>
 
   <div class="section-label">Annual Operating Costs</div>
@@ -198,53 +169,138 @@
     <div class="input-wrap"><span class="prefix">AED</span><input type="number" id="service" placeholder="12,000" oninput="calculate()" /></div>
   </div>
   <div class="input-row">
-    <label>Property management fee (%)</label>
-    <div class="input-wrap pct"><span class="prefix">%</span><input type="number" id="mgmt" placeholder="8" value="8" oninput="calculate()" /></div>
-    <div class="helper">Typically 7 to 10% of annual rent</div>
+    <label>Property management fee (%) <span class="optional-tag">optional</span></label>
+    <div class="input-wrap pct"><span class="prefix">%</span><input type="number" id="mgmt" placeholder="0" oninput="calculate()" /></div>
+    <div class="helper">Typically 7 to 10% of annual rent if self managing leave blank</div>
   </div>
   <div class="input-row">
-    <label>Maintenance reserve (optional)</label>
+    <label>Maintenance reserve <span class="optional-tag">optional</span></label>
     <div class="input-wrap"><span class="prefix">AED</span><input type="number" id="maintenance" placeholder="0" oninput="calculate()" /></div>
     <div class="helper">Developer typically covers defects in year one</div>
   </div>
   <div class="input-row">
-    <label>Insurance (optional)</label>
+    <label>Insurance <span class="optional-tag">optional</span></label>
     <div class="input-wrap"><span class="prefix">AED</span><input type="number" id="insurance" placeholder="0" oninput="calculate()" /></div>
   </div>
 
   <div class="section-label">One-Time Transaction Costs</div>
-  <div class="txn-info">
-    <div class="txn-info-title">Applied automatically based on market type</div>
-    <div class="txn-row"><div class="txn-key">DLD fee (4% of purchase price)</div><div class="txn-val" id="txn-dld">—</div></div>
-    <div class="txn-row txn-agent" id="txn-agent-row"><div class="txn-key">Agent commission (2%)</div><div class="txn-val" id="txn-agent">—</div></div>
-    <div class="txn-row"><div class="txn-key">Aqood fee</div><div class="txn-val">AED 4,000</div></div>
-    <div class="txn-row"><div class="txn-key">Trustee office fee</div><div class="txn-val">AED 4,200</div></div>
-    <div class="txn-row"><div class="txn-key">Mortgage arrangement fee (1%)</div><div class="txn-val" id="txn-mortgage">AED 0</div></div>
-    <div class="txn-row total-txn"><div class="txn-key">Total entry cost</div><div class="txn-val" id="txn-total">—</div></div>
+
+  <div class="dld-waiver" id="dld-waiver-wrap">
+    <label for="dld-waiver">Developer is waiving the 4% DLD fee</label>
+    <input type="checkbox" id="dld-waiver" onchange="calculate()" />
+  </div>
+
+  <div class="txn-box" id="txn-box">
+    <div class="txn-box-title">Applied automatically — higher end estimates used</div>
+
+    <!-- DLD -->
+    <div class="txn-row" id="txn-dld-row">
+      <div>
+        <div class="txn-key">DLD fee (4% of purchase price)</div>
+        <div class="txn-note">Mandatory government transfer fee</div>
+      </div>
+      <div class="txn-val" id="txn-dld">—</div>
+    </div>
+
+    <!-- Property Registration -->
+    <div class="txn-row">
+      <div>
+        <div class="txn-key">Property registration fee</div>
+        <div class="txn-note">AED 4,000 + 5% VAT for properties above AED 500K</div>
+      </div>
+      <div class="txn-val">AED 4,200</div>
+    </div>
+
+    <!-- PRIMARY ONLY -->
+    <div class="txn-row" id="txn-oqood-row">
+      <div>
+        <div class="txn-key">Oqood registration</div>
+        <div class="txn-note">AED 1,000 off-plan portal registration</div>
+      </div>
+      <div class="txn-val">AED 1,000</div>
+    </div>
+    <div class="txn-row" id="txn-oqood-admin-row">
+      <div>
+        <div class="txn-key">Oqood admin fees</div>
+        <div class="txn-note">AED 1,000 to AED 5,000 — higher end used. Check your SPA as some developers waive this.</div>
+      </div>
+      <div class="txn-val">AED 5,000</div>
+    </div>
+
+    <!-- SECONDARY ONLY -->
+    <div class="txn-row txn-hidden" id="txn-agent-row">
+      <div>
+        <div class="txn-key">Agency commission (2% + 5% VAT)</div>
+        <div class="txn-note">Standard secondary market buyer commission</div>
+      </div>
+      <div class="txn-val" id="txn-agent">—</div>
+    </div>
+    <div class="txn-row txn-hidden" id="txn-noc-row">
+      <div>
+        <div class="txn-key">Developer NOC fee</div>
+        <div class="txn-note">AED 500 to AED 5,000 + VAT — higher end used</div>
+      </div>
+      <div class="txn-val">AED 5,000</div>
+    </div>
+    <div class="txn-row txn-hidden" id="txn-trustee-row">
+      <div>
+        <div class="txn-key">Trustee center fee</div>
+        <div class="txn-note">AED 4,000 to AED 5,000 + VAT — higher end used</div>
+      </div>
+      <div class="txn-val">AED 5,250</div>
+    </div>
+    <div class="txn-row txn-hidden" id="txn-conveyancing-row">
+      <div>
+        <div class="txn-key">Conveyancing fee</div>
+        <div class="txn-note">AED 6,000 to AED 10,000 — higher end used</div>
+      </div>
+      <div class="txn-val">AED 10,000</div>
+    </div>
+
+    <!-- MORTGAGE FEES — shown if mortgage entered -->
+    <div class="txn-row txn-hidden" id="txn-mort-reg-row">
+      <div>
+        <div class="txn-key">DLD mortgage registration (0.25% + AED 290)</div>
+        <div class="txn-note">Mandatory if financing with a mortgage</div>
+      </div>
+      <div class="txn-val" id="txn-mort-reg">—</div>
+    </div>
+    <div class="txn-row txn-hidden" id="txn-valuation-row">
+      <div>
+        <div class="txn-key">Bank valuation fee</div>
+        <div class="txn-note">AED 2,500 to AED 3,500 + 5% VAT — higher end used</div>
+      </div>
+      <div class="txn-val">AED 3,675</div>
+    </div>
+
+    <div class="txn-row txn-total">
+      <div class="txn-key">Total entry cost</div>
+      <div class="txn-val" id="txn-total">—</div>
+    </div>
   </div>
 
   <div class="divider"></div>
 
   <div class="result-card" id="result-card">
 
-    <div class="comparison-hero">
-      <div class="comparison-row">
-        <div class="comparison-cell developer">
-          <div class="comparison-cell-label">Developer projected</div>
-          <div class="comparison-yield" id="hero-gross-yield">—</div>
-          <div class="comparison-amount" id="hero-gross-amount">—</div>
+    <div class="hero">
+      <div class="hero-grid">
+        <div class="hero-cell left">
+          <div class="hero-cell-label">Developer projected</div>
+          <div class="hero-yield" id="h-gross-yield">—</div>
+          <div class="hero-amount" id="h-gross-amt">—</div>
         </div>
-        <div class="comparison-cell reality">
-          <div class="comparison-cell-label">Net operating yield</div>
-          <div class="comparison-yield" id="hero-net-yield">—</div>
-          <div class="comparison-amount" id="hero-net-amount">—</div>
+        <div class="hero-cell right">
+          <div class="hero-cell-label">Net operating yield</div>
+          <div class="hero-yield" id="h-net-yield">—</div>
+          <div class="hero-amount" id="h-net-amt">—</div>
         </div>
       </div>
-      <div class="true-yield-row">
-        <div class="true-yield-label">True year one yield after all costs</div>
-        <div class="true-yield-values">
-          <div class="true-yield-pct" id="hero-true-yield">—</div>
-          <div class="true-yield-amt" id="hero-true-amount">—</div>
+      <div class="hero-true">
+        <div class="hero-true-label">True year one yield after all costs</div>
+        <div class="hero-true-right">
+          <div class="hero-true-pct" id="h-true-yield">—</div>
+          <div class="hero-true-amt" id="h-true-amt">—</div>
         </div>
       </div>
     </div>
@@ -252,117 +308,64 @@
     <div class="gap-banner">
       <div class="gap-top">
         <div class="gap-label">Year one cost exceeds income by</div>
-        <div class="gap-amount" id="gap-amount">—</div>
+        <div class="gap-amount" id="gap-amt">—</div>
       </div>
       <div class="gap-verdict" id="gap-verdict">—</div>
       <div class="gap-desc" id="gap-desc">—</div>
     </div>
 
-    <div class="breakdown-wrap">
-      <div class="breakdown-title">Full cost breakdown</div>
-      <div class="breakdown-section">Annual running costs</div>
-      <div class="breakdown-row"><div class="breakdown-key">Gross rent</div><div class="breakdown-val" id="b-gross">—</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Vacancy loss</div><div class="breakdown-val" id="b-vacancy">—</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Service charge</div><div class="breakdown-val" id="b-service">—</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Management fee</div><div class="breakdown-val" id="b-mgmt">—</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Maintenance</div><div class="breakdown-val" id="b-maintenance">—</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Insurance</div><div class="breakdown-val" id="b-insurance">—</div></div>
-      <div class="breakdown-row subtotal"><div class="breakdown-key">Net operating income</div><div class="breakdown-val" id="b-noi">—</div></div>
-      <div class="breakdown-section">One-time transaction costs</div>
-      <div class="breakdown-row"><div class="breakdown-key">DLD fee 4%</div><div class="breakdown-val" id="b-dld">—</div></div>
-      <div class="breakdown-row b-agent-row" id="b-agent-row"><div class="breakdown-key">Agent commission 2%</div><div class="breakdown-val" id="b-agent">—</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Aqood fee</div><div class="breakdown-val">AED 4,000</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Trustee fee</div><div class="breakdown-val">AED 4,200</div></div>
-      <div class="breakdown-row"><div class="breakdown-key">Mortgage arrangement fee</div><div class="breakdown-val" id="b-mortgage-fee">AED 0</div></div>
-      <div class="breakdown-row subtotal"><div class="breakdown-key">Total transaction costs</div><div class="breakdown-val" id="b-txn-total">—</div></div>
-      <div class="breakdown-row lost"><div class="breakdown-key">Total costs in year one</div><div class="breakdown-val" id="b-total-lost">—</div></div>
-      <div class="breakdown-row total"><div class="breakdown-key">True year one net position</div><div class="breakdown-val" id="b-true-income">—</div></div>
+    <div class="bdown">
+      <div class="bdown-title">Full cost breakdown</div>
+      <div class="bdown-section">Annual running costs</div>
+      <div class="bdown-row"><div class="bdown-key">Gross rent</div><div class="bdown-val" id="b-gross">—</div></div>
+      <div class="bdown-row"><div class="bdown-key">Vacancy loss</div><div class="bdown-val" id="b-vac">—</div></div>
+      <div class="bdown-row"><div class="bdown-key">Service charge</div><div class="bdown-val" id="b-svc">—</div></div>
+      <div class="bdown-row"><div class="bdown-key">Management fee</div><div class="bdown-val" id="b-mgmt">—</div></div>
+      <div class="bdown-row"><div class="bdown-key">Maintenance</div><div class="bdown-val" id="b-maint">—</div></div>
+      <div class="bdown-row"><div class="bdown-key">Insurance</div><div class="bdown-val" id="b-ins">—</div></div>
+      <div class="bdown-row sub"><div class="bdown-key">Net operating income</div><div class="bdown-val" id="b-noi">—</div></div>
+      <div class="bdown-section">One-time transaction costs</div>
+      <div class="bdown-row" id="b-dld-row"><div class="bdown-key">DLD fee 4%</div><div class="bdown-val" id="b-dld">—</div></div>
+      <div class="bdown-row"><div class="bdown-key">Property registration</div><div class="bdown-val">AED 4,200</div></div>
+      <div class="bdown-row" id="b-oqood-row"><div class="bdown-key">Oqood registration + admin</div><div class="bdown-val">AED 6,000</div></div>
+      <div class="bdown-row txn-hidden" id="b-agent-row"><div class="bdown-key">Agency commission 2.1%</div><div class="bdown-val" id="b-agent">—</div></div>
+      <div class="bdown-row txn-hidden" id="b-noc-row"><div class="bdown-key">Developer NOC</div><div class="bdown-val">AED 5,000</div></div>
+      <div class="bdown-row txn-hidden" id="b-trustee-row"><div class="bdown-key">Trustee center fee</div><div class="bdown-val">AED 5,250</div></div>
+      <div class="bdown-row txn-hidden" id="b-conv-row"><div class="bdown-key">Conveyancing fee</div><div class="bdown-val">AED 10,000</div></div>
+      <div class="bdown-row txn-hidden" id="b-mort-row"><div class="bdown-key">DLD mortgage registration</div><div class="bdown-val" id="b-mort">—</div></div>
+      <div class="bdown-row txn-hidden" id="b-val-row"><div class="bdown-key">Bank valuation fee</div><div class="bdown-val">AED 3,675</div></div>
+      <div class="bdown-row sub"><div class="bdown-key">Total transaction costs</div><div class="bdown-val" id="b-txn-total">—</div></div>
+      <div class="bdown-row lost"><div class="bdown-key">Total costs in year one</div><div class="bdown-val" id="b-total-lost">—</div></div>
+      <div class="bdown-row total"><div class="bdown-key">True year one net position</div><div class="bdown-val" id="b-true-pos">—</div></div>
     </div>
 
-    <!-- 3 Year Table -->
-    <div class="threeyear-wrap">
+    <div class="threeyear">
       <div class="threeyear-title">3 year projection — conservative flat rent assumption</div>
-      <table class="threeyear-table">
+      <table class="ty-table">
         <thead>
-          <tr>
-            <th></th>
-            <th>Year 1</th>
-            <th>Year 2</th>
-            <th>Year 3</th>
-          </tr>
+          <tr><th></th><th>Year 1</th><th>Year 2</th><th>Year 3</th></tr>
         </thead>
         <tbody>
-          <tr class="section-row"><td colspan="4">Income</td></tr>
-          <tr>
-            <td>Gross rent</td>
-            <td id="t-gross-1">—</td>
-            <td id="t-gross-2">—</td>
-            <td id="t-gross-3">—</td>
-          </tr>
-          <tr class="section-row"><td colspan="4">Running costs</td></tr>
-          <tr>
-            <td>Vacancy loss</td>
-            <td id="t-vac-1">—</td>
-            <td id="t-vac-2">—</td>
-            <td id="t-vac-3">—</td>
-          </tr>
-          <tr>
-            <td>Service charge</td>
-            <td id="t-svc-1">—</td>
-            <td id="t-svc-2">—</td>
-            <td id="t-svc-3">—</td>
-          </tr>
-          <tr>
-            <td>Management fee</td>
-            <td id="t-mgmt-1">—</td>
-            <td id="t-mgmt-2">—</td>
-            <td id="t-mgmt-3">—</td>
-          </tr>
-          <tr>
-            <td>Maintenance</td>
-            <td id="t-maint-1">—</td>
-            <td id="t-maint-2">—</td>
-            <td id="t-maint-3">—</td>
-          </tr>
-          <tr>
-            <td>Insurance</td>
-            <td id="t-ins-1">—</td>
-            <td id="t-ins-2">—</td>
-            <td id="t-ins-3">—</td>
-          </tr>
-          <tr class="subtotal">
-            <td>Net operating income</td>
-            <td id="t-noi-1">—</td>
-            <td id="t-noi-2">—</td>
-            <td id="t-noi-3">—</td>
-          </tr>
-          <tr class="section-row"><td colspan="4">Transaction costs</td></tr>
-          <tr>
-            <td>One-time entry costs</td>
-            <td id="t-txn-1" class="yr1">—</td>
-            <td>AED 0</td>
-            <td>AED 0</td>
-          </tr>
-          <tr class="highlight">
-            <td>True net position</td>
-            <td id="t-true-1">—</td>
-            <td id="t-true-2">—</td>
-            <td id="t-true-3">—</td>
-          </tr>
-          <tr class="highlight">
-            <td>True yield</td>
-            <td id="t-yield-1">—</td>
-            <td id="t-yield-2">—</td>
-            <td id="t-yield-3">—</td>
-          </tr>
+          <tr class="sec-row"><td colspan="4">Income</td></tr>
+          <tr><td>Gross rent</td><td id="ty-gr-1">—</td><td id="ty-gr-2">—</td><td id="ty-gr-3">—</td></tr>
+          <tr class="sec-row"><td colspan="4">Running costs</td></tr>
+          <tr><td>Vacancy loss</td><td id="ty-v-1">—</td><td id="ty-v-2">—</td><td id="ty-v-3">—</td></tr>
+          <tr><td>Service charge</td><td id="ty-s-1">—</td><td id="ty-s-2">—</td><td id="ty-s-3">—</td></tr>
+          <tr><td>Management fee</td><td id="ty-m-1">—</td><td id="ty-m-2">—</td><td id="ty-m-3">—</td></tr>
+          <tr><td>Maintenance</td><td id="ty-mt-1">—</td><td id="ty-mt-2">—</td><td id="ty-mt-3">—</td></tr>
+          <tr><td>Insurance</td><td id="ty-i-1">—</td><td id="ty-i-2">—</td><td id="ty-i-3">—</td></tr>
+          <tr class="hl"><td>Net operating income</td><td id="ty-noi-1">—</td><td id="ty-noi-2">—</td><td id="ty-noi-3">—</td></tr>
+          <tr class="sec-row"><td colspan="4">Transaction costs</td></tr>
+          <tr><td>One-time entry costs</td><td id="ty-txn-1" style="color:#E24B4A">—</td><td style="color:#444">AED 0</td><td style="color:#444">AED 0</td></tr>
+          <tr class="hl"><td>True net position</td><td id="ty-pos-1">—</td><td id="ty-pos-2">—</td><td id="ty-pos-3">—</td></tr>
+          <tr class="hl"><td>True yield</td><td id="ty-yld-1">—</td><td id="ty-yld-2">—</td><td id="ty-yld-3">—</td></tr>
         </tbody>
       </table>
-      <div class="conservative-note">* <span>Conservative approach applied — flat rental income assumed across all years.</span> Dubai communities have historically seen 3 to 5% annual rent growth. Actual returns may be higher.</div>
+      <div class="conservative-note">* <span>Conservative approach — flat rental income assumed across all years.</span> Dubai communities have historically seen 3 to 5% annual rent growth. Actual returns may be higher.</div>
     </div>
 
     <button class="cta-btn" onclick="window.open('https://www.instagram.com/drishtichomal/','_blank')">Talk to Drishti about your portfolio →</button>
     <div class="cta-sub">DM on Instagram · Home Finder Real Estate Dubai</div>
-
   </div>
 
   <div class="empty-state" id="empty-state">
@@ -384,8 +387,20 @@ function setMarket(type) {
   market = type;
   document.getElementById('btn-primary').classList.toggle('active', type === 'primary');
   document.getElementById('btn-secondary').classList.toggle('active', type === 'secondary');
-  document.getElementById('txn-agent-row').classList.toggle('visible', type === 'secondary');
-  document.getElementById('b-agent-row').classList.toggle('visible', type === 'secondary');
+  const isPrimary = type === 'primary';
+  const isSecondary = !isPrimary;
+  document.getElementById('dld-waiver-wrap').style.display = isPrimary ? 'flex' : 'none';
+  document.getElementById('txn-oqood-row').classList.toggle('txn-hidden', isSecondary);
+  document.getElementById('txn-oqood-admin-row').classList.toggle('txn-hidden', isSecondary);
+  document.getElementById('b-oqood-row').classList.toggle('txn-hidden', isSecondary);
+  document.getElementById('txn-agent-row').classList.toggle('txn-hidden', isPrimary);
+  document.getElementById('txn-noc-row').classList.toggle('txn-hidden', isPrimary);
+  document.getElementById('txn-trustee-row').classList.toggle('txn-hidden', isPrimary);
+  document.getElementById('txn-conveyancing-row').classList.toggle('txn-hidden', isPrimary);
+  document.getElementById('b-agent-row').classList.toggle('txn-hidden', isPrimary);
+  document.getElementById('b-noc-row').classList.toggle('txn-hidden', isPrimary);
+  document.getElementById('b-trustee-row').classList.toggle('txn-hidden', isPrimary);
+  document.getElementById('b-conv-row').classList.toggle('txn-hidden', isPrimary);
   calculate();
 }
 
@@ -393,13 +408,13 @@ function setInputMode(mode) {
   inputMode = mode;
   document.getElementById('btn-yield').classList.toggle('active', mode === 'yield');
   document.getElementById('btn-rent').classList.toggle('active', mode === 'rent');
-  document.getElementById('yield-input-wrap').style.display = mode === 'yield' ? 'block' : 'none';
-  document.getElementById('rent-input-wrap').style.display = mode === 'rent' ? 'block' : 'none';
+  document.getElementById('yield-wrap').style.display = mode === 'yield' ? 'block' : 'none';
+  document.getElementById('rent-wrap').style.display = mode === 'rent' ? 'block' : 'none';
   calculate();
 }
 
 function fmt(n) { return 'AED ' + Math.round(Math.abs(n)).toLocaleString(); }
-function fmtSigned(n) { return (n < 0 ? '− ' : '') + 'AED ' + Math.round(Math.abs(n)).toLocaleString(); }
+function fmtS(n) { return (n < 0 ? '− ' : '') + 'AED ' + Math.round(Math.abs(n)).toLocaleString(); }
 
 function calculate() {
   const price = parseFloat(document.getElementById('price').value) || 0;
@@ -409,35 +424,45 @@ function calculate() {
   const mgmtPct = parseFloat(document.getElementById('mgmt').value) || 0;
   const maintenance = parseFloat(document.getElementById('maintenance').value) || 0;
   const insurance = parseFloat(document.getElementById('insurance').value) || 0;
+  const dldWaived = document.getElementById('dld-waiver').checked;
 
-  let grossRent = 0;
-  let devYieldPct = 0;
-
+  let grossRent = 0, devYieldPct = 0;
   if (inputMode === 'yield') {
     devYieldPct = parseFloat(document.getElementById('dev-yield').value) || 0;
     grossRent = price * (devYieldPct / 100);
-    const impliedBox = document.getElementById('implied-rent-box');
-    if (price && devYieldPct) {
-      impliedBox.classList.add('visible');
-      document.getElementById('implied-rent-val').textContent = fmt(grossRent) + ' per year';
-    } else {
-      impliedBox.classList.remove('visible');
-    }
+    const box = document.getElementById('implied-box');
+    if (price && devYieldPct) { box.classList.add('visible'); document.getElementById('implied-val').textContent = fmt(grossRent) + ' per year'; }
+    else { box.classList.remove('visible'); }
   } else {
     grossRent = parseFloat(document.getElementById('gross-rent').value) || 0;
     devYieldPct = price ? (grossRent / price) * 100 : 0;
   }
 
-  const dld = price * 0.04;
-  const agent = market === 'secondary' ? price * 0.02 : 0;
-  const aqood = 4000;
-  const trustee = 4200;
-  const mortgageFee = mortgageAmt * 0.01;
-  const totalTxn = dld + agent + aqood + trustee + mortgageFee;
+  // Transaction costs
+  const dld = dldWaived ? 0 : price * 0.04;
+  const propReg = 4200;
+  const oqood = market === 'primary' ? 6000 : 0; // 1000 + 5000
+  const agent = market === 'secondary' ? price * 0.021 : 0;
+  const noc = market === 'secondary' ? 5000 : 0;
+  const trustee = market === 'secondary' ? 5250 : 0;
+  const conveyancing = market === 'secondary' ? 10000 : 0;
+  const mortReg = mortgageAmt ? (mortgageAmt * 0.0025) + 290 : 0;
+  const valuation = mortgageAmt ? 3675 : 0;
+  const totalTxn = dld + propReg + oqood + agent + noc + trustee + conveyancing + mortReg + valuation;
 
-  document.getElementById('txn-dld').textContent = price ? fmt(dld) : '—';
+  // Update transaction box display
+  const dldRow = document.getElementById('txn-dld-row');
+  document.getElementById('txn-dld').textContent = price ? (dldWaived ? 'Waived' : fmt(dld)) : '—';
+  if (dldWaived) { document.getElementById('txn-dld').style.color = '#1D9E75'; } else { document.getElementById('txn-dld').style.color = '#666'; }
   document.getElementById('txn-agent').textContent = price ? fmt(agent) : '—';
-  document.getElementById('txn-mortgage').textContent = mortgageAmt ? fmt(mortgageFee) : 'AED 0';
+  document.getElementById('txn-mort-reg-row').classList.toggle('txn-hidden', !mortgageAmt);
+  document.getElementById('txn-valuation-row').classList.toggle('txn-hidden', !mortgageAmt);
+  document.getElementById('b-mort-row').classList.toggle('txn-hidden', !mortgageAmt);
+  document.getElementById('b-val-row').classList.toggle('txn-hidden', !mortgageAmt);
+  if (mortgageAmt) {
+    document.getElementById('txn-mort-reg').textContent = fmt(mortReg);
+    document.getElementById('b-mort').textContent = '− ' + fmt(mortReg);
+  }
   document.getElementById('txn-total').textContent = price ? fmt(totalTxn) : '—';
 
   if (!price || !grossRent) {
@@ -446,89 +471,71 @@ function calculate() {
     return;
   }
 
-  const vacancyLoss = grossRent * (vacancy / 100);
-  const effectiveRent = grossRent - vacancyLoss;
-  const mgmtFee = effectiveRent * (mgmtPct / 100);
-  const totalRunning = vacancyLoss + service + mgmtFee + maintenance + insurance;
+  const vacLoss = grossRent * (vacancy / 100);
+  const effRent = grossRent - vacLoss;
+  const mgmtFee = effRent * (mgmtPct / 100);
+  const totalRunning = vacLoss + service + mgmtFee + maintenance + insurance;
   const noi = grossRent - totalRunning;
-  const trueYearOneIncome = noi - totalTxn;
-  const totalLostYearOne = totalRunning + totalTxn;
+  const truePos = noi - totalTxn;
+  const totalLost = totalRunning + totalTxn;
 
   const grossYield = devYieldPct;
   const netYield = (noi / price) * 100;
-  const trueYield = (trueYearOneIncome / price) * 100;
+  const trueYield = (truePos / price) * 100;
 
   document.getElementById('result-card').classList.add('visible');
   document.getElementById('empty-state').style.display = 'none';
 
-  document.getElementById('hero-gross-yield').textContent = grossYield.toFixed(1) + '%';
-  document.getElementById('hero-gross-amount').textContent = fmt(grossRent) + ' per year';
-  document.getElementById('hero-net-yield').textContent = netYield.toFixed(1) + '%';
-  document.getElementById('hero-net-amount').textContent = fmt(noi) + ' per year';
-  document.getElementById('hero-true-yield').textContent = trueYield.toFixed(1) + '%';
-  document.getElementById('hero-true-amount').textContent = fmtSigned(trueYearOneIncome) + ' in year one';
+  document.getElementById('h-gross-yield').textContent = grossYield.toFixed(1) + '%';
+  document.getElementById('h-gross-amt').textContent = fmt(grossRent) + ' per year';
+  document.getElementById('h-net-yield').textContent = netYield.toFixed(1) + '%';
+  document.getElementById('h-net-amt').textContent = fmt(noi) + ' per year';
+  document.getElementById('h-true-yield').textContent = trueYield.toFixed(1) + '%';
+  document.getElementById('h-true-amt').textContent = fmtS(truePos) + ' in year one';
 
-  document.getElementById('gap-amount').textContent = fmt(totalLostYearOne);
-
+  document.getElementById('gap-amt').textContent = fmt(totalLost);
   document.getElementById('b-gross').textContent = fmt(grossRent);
-  document.getElementById('b-vacancy').textContent = '− ' + fmt(vacancyLoss);
-  document.getElementById('b-service').textContent = '− ' + fmt(service);
-  document.getElementById('b-mgmt').textContent = '− ' + fmt(mgmtFee);
-  document.getElementById('b-maintenance').textContent = maintenance ? '− ' + fmt(maintenance) : 'AED 0';
-  document.getElementById('b-insurance').textContent = insurance ? '− ' + fmt(insurance) : 'AED 0';
+  document.getElementById('b-vac').textContent = '− ' + fmt(vacLoss);
+  document.getElementById('b-svc').textContent = service ? '− ' + fmt(service) : 'AED 0';
+  document.getElementById('b-mgmt').textContent = mgmtFee ? '− ' + fmt(mgmtFee) : 'AED 0';
+  document.getElementById('b-maint').textContent = maintenance ? '− ' + fmt(maintenance) : 'AED 0';
+  document.getElementById('b-ins').textContent = insurance ? '− ' + fmt(insurance) : 'AED 0';
   document.getElementById('b-noi').textContent = fmt(noi);
-  document.getElementById('b-dld').textContent = '− ' + fmt(dld);
+  document.getElementById('b-dld').textContent = dldWaived ? 'Waived' : '− ' + fmt(dld);
   document.getElementById('b-agent').textContent = '− ' + fmt(agent);
-  document.getElementById('b-mortgage-fee').textContent = mortgageAmt ? '− ' + fmt(mortgageFee) : 'AED 0';
   document.getElementById('b-txn-total').textContent = fmt(totalTxn);
-  document.getElementById('b-total-lost').textContent = fmt(totalLostYearOne);
-  document.getElementById('b-true-income').textContent = fmtSigned(trueYearOneIncome);
+  document.getElementById('b-total-lost').textContent = fmt(totalLost);
+  document.getElementById('b-true-pos').textContent = fmtS(truePos);
 
   const verdict = document.getElementById('gap-verdict');
   const desc = document.getElementById('gap-desc');
-
-  if (trueYearOneIncome < 0) {
+  if (truePos < 0) {
     verdict.textContent = 'Year one costs exceed rental income.';
-    desc.textContent = 'This is primarily driven by AED ' + fmt(totalTxn) + ' in one-time transaction costs. These do not repeat after year one. From year two your net position becomes AED ' + fmt(noi) + ' annually at a net yield of ' + netYield.toFixed(1) + '%.';
+    desc.textContent = 'This is primarily driven by ' + fmt(totalTxn) + ' in one-time transaction costs. These do not repeat after year one. From year two your annual net income is ' + fmt(noi) + ' at a net yield of ' + netYield.toFixed(1) + '%.';
   } else {
     verdict.textContent = 'Year one delivers a positive net position.';
-    desc.textContent = 'After all costs including one-time transaction fees your year one net position is AED ' + fmt(trueYearOneIncome) + '. From year two transaction costs fall away and your net income rises to AED ' + fmt(noi) + ' annually.';
+    desc.textContent = 'After all costs including one-time transaction fees your year one net position is ' + fmt(truePos) + '. From year two transaction costs fall away and net income rises to ' + fmt(noi) + ' annually.';
   }
 
-  // 3 Year Table - flat rent conservative
-  const years = [1, 2, 3];
-  years.forEach(yr => {
-    const rent = grossRent; // flat
-    const vac = rent * (vacancy / 100);
-    const eff = rent - vac;
-    const mf = eff * (mgmtPct / 100);
-    const runCost = vac + service + mf + maintenance + insurance;
-    const yearNoi = rent - runCost;
+  // 3 year table
+  [1, 2, 3].forEach(yr => {
     const txnCost = yr === 1 ? totalTxn : 0;
-    const truePos = yearNoi - txnCost;
-    const trueYld = (truePos / price) * 100;
-
-    document.getElementById('t-gross-' + yr).textContent = fmt(rent);
-    document.getElementById('t-vac-' + yr).textContent = '− ' + fmt(vac);
-    document.getElementById('t-svc-' + yr).textContent = '− ' + fmt(service);
-    document.getElementById('t-mgmt-' + yr).textContent = '− ' + fmt(mf);
-    document.getElementById('t-maint-' + yr).textContent = maintenance ? '− ' + fmt(maintenance) : 'AED 0';
-    document.getElementById('t-ins-' + yr).textContent = insurance ? '− ' + fmt(insurance) : 'AED 0';
-    document.getElementById('t-noi-' + yr).textContent = fmt(yearNoi);
-    if (yr === 1) document.getElementById('t-txn-1').textContent = '− ' + fmt(totalTxn);
-
-    const truePosEl = document.getElementById('t-true-' + yr);
-    const trueYldEl = document.getElementById('t-yield-' + yr);
-    truePosEl.textContent = fmtSigned(truePos);
-    trueYldEl.textContent = trueYld.toFixed(1) + '%';
-
-    if (truePos < 0) {
-      truePosEl.style.color = '#E24B4A';
-      trueYldEl.style.color = '#E24B4A';
-    } else {
-      truePosEl.style.color = '#1D9E75';
-      trueYldEl.style.color = '#1D9E75';
-    }
+    const pos = noi - txnCost;
+    const yld = (pos / price) * 100;
+    document.getElementById('ty-gr-' + yr).textContent = fmt(grossRent);
+    document.getElementById('ty-v-' + yr).textContent = '− ' + fmt(vacLoss);
+    document.getElementById('ty-s-' + yr).textContent = service ? '− ' + fmt(service) : 'AED 0';
+    document.getElementById('ty-m-' + yr).textContent = mgmtFee ? '− ' + fmt(mgmtFee) : 'AED 0';
+    document.getElementById('ty-mt-' + yr).textContent = maintenance ? '− ' + fmt(maintenance) : 'AED 0';
+    document.getElementById('ty-i-' + yr).textContent = insurance ? '− ' + fmt(insurance) : 'AED 0';
+    document.getElementById('ty-noi-' + yr).textContent = fmt(noi);
+    if (yr === 1) document.getElementById('ty-txn-1').textContent = '− ' + fmt(totalTxn);
+    const posEl = document.getElementById('ty-pos-' + yr);
+    const yldEl = document.getElementById('ty-yld-' + yr);
+    posEl.textContent = fmtS(pos);
+    yldEl.textContent = yld.toFixed(1) + '%';
+    posEl.style.color = pos < 0 ? '#E24B4A' : '#1D9E75';
+    yldEl.style.color = pos < 0 ? '#E24B4A' : '#1D9E75';
   });
 }
 
